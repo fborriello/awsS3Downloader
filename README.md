@@ -4,8 +4,8 @@
 
 ### AWS default credentials chain
 The AWS SDK for Java (v2, which your project uses) automatically looks for credentials in this order:
-1. 
-2. Environment variables
+
+1. Environment variables
 ```
 AWS_ACCESS_KEY_ID=your-access-key
 AWS_SECRET_ACCESS_KEY=your-secret-key
