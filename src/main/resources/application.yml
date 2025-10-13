@@ -1,0 +1,4 @@
+aws:
+  region: eu-north-1
+  bucket: fabiob-bucket
+  download-dir: ./download
