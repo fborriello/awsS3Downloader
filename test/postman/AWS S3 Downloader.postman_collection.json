@@ -1,0 +1,35 @@
+{
+	"info": {
+		"_postman_id": "30f93ece-ea68-4136-97c4-e71309153c9a",
+		"name": "AWS S3 Downloader",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26196233"
+	},
+	"item": [
+		{
+			"name": "Download from S3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/download?prefix=backup/2024/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"download"
+					],
+					"query": [
+						{
+							"key": "prefix",
+							"value": "backup/2024/"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

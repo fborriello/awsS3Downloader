@@ -85,5 +85,5 @@ The AWS SDK for Java (v2, which your project uses) automatically looks for crede
 ### 2.2. Trigger the Download via curl
 
 ```bash
-curl -X GET "http://localhost:8080/download?prefix=backup/2024/"
+curl -X POST "http://localhost:8080/download?prefix=backup/2024/"
 ```
