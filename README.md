@@ -82,6 +82,11 @@ The AWS SDK for Java (v2, which your project uses) automatically looks for crede
 ./mvnw spring-boot:run
 ```
 
+### 2.2. Start the Spring Boot App with a specific AWS Profile
+```bash
+mvn spring-boot:run -Dspring-boot.run.arguments="--aws.profile=backup-user"
+```
+
 ### 2.2. Trigger the Download via curl
 
 ```bash
