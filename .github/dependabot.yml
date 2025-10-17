@@ -1,0 +1,30 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "09:00"
+    timezone: "Europe/Rome"
+  target-branch: develop
+  open-pull-requests-limit: 10
+  reviewers:
+  - fborriello
+  labels:
+  - configuration
+  - upgrade
+  - dependencies
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "09:00"
+    timezone: "Europe/Rome"
+  target-branch: develop
+  open-pull-requests-limit: 10
+  reviewers:
+  - fborriello
+  labels:
+  - configuration
+  - upgrade
+  - github-actions-lib
