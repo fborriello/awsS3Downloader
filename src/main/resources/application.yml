@@ -1,5 +1,5 @@
 aws:
-  profile: pippo # Use environment variable or default to "default"
-  region: ${AWS_REGION:us-east-1}
+  profile: personal # Use environment variable or default to "default"
+  region: ${AWS_REGION:eu-north-1}
   bucket: fabiob-bucket
   download-dir: ./download
