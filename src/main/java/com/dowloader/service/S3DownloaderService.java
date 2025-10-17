@@ -2,9 +2,11 @@ package com.dowloader.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
@@ -18,20 +20,15 @@ import java.nio.file.Paths;
 public class S3DownloaderService {
 
     private static final Logger log = LoggerFactory.getLogger(S3DownloaderService.class);
-    private final S3Client s3;
+
+    @Autowired
+    private S3Client s3;
 
     @Value("${aws.bucket}")
     private String bucket;
 
     @Value("${aws.download-dir}")
     private String downloadDir;
-
-    public S3DownloaderService(@Value("${aws.region}") String region) {
-        this.s3 = S3Client.builder()
-                .region(Region.of(region))
-                .credentialsProvider(DefaultCredentialsProvider.create())
-                .build();
-    }
 
     public void downloadRecursively(String prefix) {
         log.info("Starting recursive download from bucket '{}' with prefix '{}'", bucket, prefix);
