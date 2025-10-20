@@ -81,6 +81,7 @@ public class S3DownloaderService {
                                         .build())
                                 .build())
                         .build());
+                return;
             } else {
                 log.info("File '{}' already restored, starting download", key);
             }
