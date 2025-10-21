@@ -9,10 +9,10 @@
 		{
 			"name": "Download from S3",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/download?prefix=backup/2024/",
+					"raw": "http://localhost:8080/download?prefix=Cards/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -24,7 +24,7 @@
 					"query": [
 						{
 							"key": "prefix",
-							"value": "backup/2024/"
+							"value": "Cards/"
 						}
 					]
 				}
