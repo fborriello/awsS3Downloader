@@ -2,11 +2,14 @@
 
 ## 1. AWS Setup
 
-### 1.1. Configuring AWS Credentials
+### 1.1. AWS CLI Setup
+To run the project it's needed to have the AWS CLI installed. Follow [this guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) to set it up.
+
+### 1.2. Configuring AWS Credentials
 
 The S3 Downloader application needs AWS credentials to access S3. **Do not store your AWS keys in code or configuration files**. Use one of the methods below.
 
-#### 1.1.1. Using an IAM User (Long-term Credentials)
+#### 1.2.1. Using an IAM User (Long-term Credentials)
 
 1. Sign in to the [AWS Management Console](https://aws.amazon.com/console/) with an account that has IAM permissions.
 2. Go to **IAM → Users**.
@@ -24,7 +27,7 @@ export AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_KEY>
 export AWS_DEFAULT_REGION=eu-south-1
 ```
 
-#### 1.1.2. AWS Default Credentials Chain
+#### 1.2.2. AWS Default Credentials Chain
 
 The AWS SDK for Java (v2, which your project uses) automatically looks for credentials in this order:
 
@@ -48,7 +51,7 @@ The AWS SDK for Java (v2, which your project uses) automatically looks for crede
    aws_secret_access_key = YOUR_SECRET_KEY
    ```
 
-#### 1.1.3. Configuration Methods
+#### 1.2.3. Configuration Methods
 
 - **Option A: Using aws configure**
   1. Install the AWS CLI if not already installed.
@@ -92,3 +95,6 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--aws.profile=backup-user"
 ```bash
 curl -X POST "http://localhost:8080/download?prefix=backup/2024/"
 ```
+
+### 2.2. Trigger the Download via Postman project
+If you have Postman installed, you can use the Postman Collection available in the project at: [test/postman](test/postman) to invoke the endpoint
