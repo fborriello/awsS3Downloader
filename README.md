@@ -79,22 +79,32 @@ The AWS SDK for Java (v2, which your project uses) automatically looks for crede
 
 ## 2. App Usage
 
-### 2.1. Start the Spring Boot App
+### 2.1. Start the Spring Boot App with a Rest API
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-### 2.2. Start the Spring Boot App with a specific AWS Profile
+#### 2.1.2. Start the Spring Boot App with a specific AWS Profile
 ```bash
 mvn spring-boot:run -Dspring-boot.run.arguments="--aws.profile=backup-user"
 ```
 
-### 2.2. Trigger the Download via curl
+#### 2.1.3. Trigger the Download via curl
 
 ```bash
 curl -X POST "http://localhost:8080/download?prefix=backup/2024/"
 ```
 
-### 2.2. Trigger the Download via Postman project
+### 2.1.4 Trigger the Download via Postman project
 If you have Postman installed, you can use the Postman Collection available in the project at: [test/postman](test/postman) to invoke the endpoint
+
+### 2.2 Start the application from command line
+```bash
+java -jar aws-s3-downloader-1.0-SNAPSHOT.jar \
+--aws.bucket=my-archive-bucket \
+--aws.region=eu-south-1 \
+--aws.profile=backup-user \
+--prefix=archives/2025/ \
+--downloadDir=./download
+```

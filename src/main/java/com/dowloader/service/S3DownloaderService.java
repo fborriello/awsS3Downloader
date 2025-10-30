@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
+import software.amazon.awssdk.core.sync.ResponseTransformer;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GlacierJobParameters;
@@ -20,6 +23,8 @@ import software.amazon.awssdk.services.s3.model.Tier;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
@@ -56,6 +61,30 @@ public class S3DownloaderService {
         } while (response.isTruncated());
 
         log.info("Download process completed for prefix '{}'", prefix);
+    }
+
+    public void downloadRecursively(String profile, String region, String bucket, String prefix, String localBasePath) {
+        try (S3Client s3Client = S3Client.builder()
+                .credentialsProvider(ProfileCredentialsProvider.create(profile))
+                .region(Region.of(region))
+                .build()) {
+
+            ListObjectsV2Request listReq = ListObjectsV2Request.builder()
+                    .bucket(bucket)
+                    .prefix(prefix)
+                    .build();
+
+            ListObjectsV2Response listRes = s3Client.listObjectsV2(listReq);
+
+            for (S3Object obj : listRes.contents()) {
+                String key = obj.key();
+                log.info("Found: {} ({} bytes)", key, obj.size());
+                downloadFile(s3Client, bucket, key, localBasePath);
+            }
+
+        } catch (Exception e) {
+            log.error("Error connecting to AWS: {}", e.getMessage());
+        }
     }
 
     private void handleObject(S3Object obj) {
@@ -102,6 +131,23 @@ public class S3DownloaderService {
             log.info("Downloaded: {}", key);
         } catch (Exception e) {
             log.error("Error downloading '{}': {}", key, e.getMessage());
+        }
+    }
+
+    private void downloadFile(S3Client s3Client, String bucketName, String key, String localBasePath) {
+        Path localPath = Paths.get(localBasePath, key);
+        try {
+            Files.createDirectories(localPath.getParent());
+            s3Client.getObject(
+                    GetObjectRequest.builder()
+                            .bucket(bucketName)
+                            .key(key)
+                            .build(),
+                    ResponseTransformer.toFile(localPath)
+            );
+            log.info("Downloaded: {}", localPath);
+        } catch (Exception e) {
+            log.error("Failed to download {}: {}", key, e.getMessage());
         }
     }
 }

@@ -1,5 +1,5 @@
 aws:
   profile: personal # Use environment variable or default to "default"
   region: ${AWS_REGION:eu-north-1}
-  bucket: fabiob-bucket
+  bucket: bucketName
   download-dir: ./awsS3Download
