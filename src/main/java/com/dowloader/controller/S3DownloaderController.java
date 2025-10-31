@@ -16,12 +16,12 @@ public class S3DownloaderController {
 
     private final S3DownloaderService service;
 
-    public S3DownloaderController(S3DownloaderService service) {
+    public S3DownloaderController(final S3DownloaderService service) {
         this.service = service;
     }
 
     @PostMapping
-    public String startDownload(@RequestParam(name = "prefix", required = false) String prefix) {
+    public String startDownload(@RequestParam(name = "prefix", required = false) final String prefix) {
         String outcomeMessage;
         if (prefix == null || prefix.isBlank()) {
             log.warn("Download request received without a prefix");

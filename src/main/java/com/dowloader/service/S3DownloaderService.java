@@ -36,7 +36,7 @@ public class S3DownloaderService {
     @Value("${aws.download-dir}")
     private String downloadDir;
 
-    public void downloadRecursively(String prefix) {
+    public void downloadRecursively(final String prefix) {
         log.info("Starting recursive download from bucket '{}' with prefix '{}'", bucket, prefix);
 
         ListObjectsV2Request listRequest = ListObjectsV2Request.builder()
@@ -58,7 +58,7 @@ public class S3DownloaderService {
         log.info("Download process completed for prefix '{}'", prefix);
     }
 
-    private void handleObject(S3Object obj) {
+    private void handleObject(final S3Object obj) {
         String key = obj.key();
         HeadObjectResponse head = s3.headObject(HeadObjectRequest.builder()
                 .bucket(bucket)
@@ -89,7 +89,7 @@ public class S3DownloaderService {
         downloadFile(key);
     }
 
-    private void downloadFile(String key) {
+    private void downloadFile(final String key) {
         String localPath = Paths.get(downloadDir, key).toString();
         new File(localPath).getParentFile().mkdirs();
         try (InputStream in = s3.getObject(GetObjectRequest.builder()
