@@ -25,7 +25,7 @@ public class S3DownloaderController {
         String outcomeMessage;
         if (prefix == null || prefix.isBlank()) {
             log.warn("Download request received without a prefix");
-            outcomeMessage = "Error: prefix parameter is required. Example: /download?prefix=backup/2024/";
+            outcomeMessage = "Error: prefix parameter is required. Example: /download?prefix=backup/xyz/";
         } else {
             log.info("Received download request for prefix '{}'", prefix);
 
