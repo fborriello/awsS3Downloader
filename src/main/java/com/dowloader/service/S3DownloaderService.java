@@ -76,18 +76,18 @@ public class S3DownloaderService {
                         .bucket(bucket)
                         .key(key)
                         .restoreRequest(RestoreRequest.builder()
-                                .days(2)
+                                .days(10)
                                 .glacierJobParameters(GlacierJobParameters.builder()
-                                        .tier(Tier.STANDARD)
+                                        .tier(Tier.BULK)
                                         .build())
                                 .build())
                         .build());
                 return;
             } else {
                 log.info("File '{}' already restored, starting download", key);
+                downloadFile(key);
             }
         }
-        downloadFile(key);
     }
 
     private void downloadFile(final String key) {

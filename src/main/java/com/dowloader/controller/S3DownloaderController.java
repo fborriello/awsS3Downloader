@@ -2,6 +2,7 @@ package com.dowloader.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,21 +23,21 @@ public class S3DownloaderController {
     }
 
     @PostMapping
-    public String startDownload(@RequestParam(name = "prefix", required = false) final String prefix) {
+    public String startDownload(@RequestParam(name = "folderToDownload", required = false) final String folderToDownload) {
         String outcomeMessage;
-        if (prefix == null || prefix.isBlank()) {
+        if (!StringUtils.hasText(folderToDownload)) {
             log.warn("Download request received without a prefix");
-            outcomeMessage = "Error: prefix parameter is required. Example: /download?prefix=backup/xyz/";
+            outcomeMessage = "Error: folderToDownload parameter is required. Example: /download?prefix=backup/xyz/";
         } else {
-            log.info("Received download request for prefix '{}'", prefix);
+            log.info("Received download request for prefix '{}'", folderToDownload);
 
             try {
-                service.downloadRecursively(prefix);
-                log.info("Download process started for prefix '{}'", prefix);
-                outcomeMessage = "Download process started for prefix: " + prefix;
+                service.downloadRecursively(folderToDownload);
+                log.info("Download process started for prefix '{}'", folderToDownload);
+                outcomeMessage = "Download process started for prefix: " + folderToDownload;
             } catch (Exception e) {
-                log.error("Error during download for prefix '{}': {}", prefix, e.getMessage());
-                outcomeMessage = "Error starting download for prefix: " + prefix + " (" + e.getMessage() + ")";
+                log.error("Error during download for prefix '{}': {}", folderToDownload, e.getMessage());
+                outcomeMessage = "Error starting download for prefix: " + folderToDownload + " (" + e.getMessage() + ")";
             }
         }
         return outcomeMessage;
