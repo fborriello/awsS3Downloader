@@ -23,21 +23,21 @@ public class S3DownloaderController {
     }
 
     @PostMapping
-    public String startDownload(@RequestParam(name = "folderToDownload", required = false) final String folderToDownload) {
+    public String startDownload(@RequestParam(name = "prefix", required = false) final String prefix) {
         String outcomeMessage;
-        if (!StringUtils.hasText(folderToDownload)) {
+        if (!StringUtils.hasText(prefix)) {
             log.warn("Download request received without a prefix");
-            outcomeMessage = "Error: folderToDownload parameter is required. Example: /download?prefix=backup/xyz/";
+            outcomeMessage = "Error: prefix parameter is required. Example: /download?prefix=backup/xyz/";
         } else {
-            log.info("Received download request for prefix '{}'", folderToDownload);
+            log.info("Received download request for prefix '{}'", prefix);
 
             try {
-                service.downloadRecursively(folderToDownload);
-                log.info("Download process started for prefix '{}'", folderToDownload);
-                outcomeMessage = "Download process started for prefix: " + folderToDownload;
+                service.downloadRecursively(prefix);
+                log.info("Download process started for prefix '{}'", prefix);
+                outcomeMessage = "Download process started for prefix: " + prefix;
             } catch (Exception e) {
-                log.error("Error during download for prefix '{}': {}", folderToDownload, e.getMessage());
-                outcomeMessage = "Error starting download for prefix: " + folderToDownload + " (" + e.getMessage() + ")";
+                log.error("Error during download for prefix '{}': {}", prefix, e.getMessage());
+                outcomeMessage = "Error starting download for prefix: " + prefix + " (" + e.getMessage() + ")";
             }
         }
         return outcomeMessage;

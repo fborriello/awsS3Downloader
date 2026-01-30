@@ -60,13 +60,13 @@ public class S3DownloaderService {
     }
 
     private void handleObject(final S3Object obj) {
-        String key = obj.key();
-        HeadObjectResponse head = s3.headObject(HeadObjectRequest.builder()
+        final String key = obj.key();
+        final HeadObjectResponse head = s3.headObject(HeadObjectRequest.builder()
                 .bucket(bucket)
                 .key(key)
                 .build());
 
-        String storageClass = head.storageClassAsString();
+        final String storageClass = head.storageClassAsString();
         log.info("Found: {} ({})", key, storageClass);
 
         if ("DEEP_ARCHIVE".equals(storageClass) || "GLACIER".equals(storageClass)) {
@@ -82,11 +82,13 @@ public class S3DownloaderService {
                                         .build())
                                 .build())
                         .build());
-                return;
             } else {
                 log.info("File '{}' already restored, starting download", key);
                 downloadFile(key);
             }
+        } else {
+            // For all other storage classes, download directly
+            downloadFile(key);
         }
     }
 
